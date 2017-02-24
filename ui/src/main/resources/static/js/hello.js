@@ -19,9 +19,20 @@ angular.module('hello', ['ngRoute'])
 		
 		var self = this;
 		//self is an alias for this so the below callback can reference the controller
-		$http.get('/resource/').then(function(response){
+		$http.get({
+			url: 'http://localhost:9000/',
+			method: 'GET',
+			headers : {
+				'X-Auth-Token' : response.data.token
+			}
+		}).then(function(response){
 			self.greeting = response.data;
 		});
+		
+		
+		
+		
+		
 	}).controller('navigation', function($rootScope, $http, $location){
 		var self = this;
 		
@@ -32,12 +43,6 @@ angular.module('hello', ['ngRoute'])
 				} : {};
 				
 			$http.get('user', {headers}).then(function(response) {
-//				if (response.data.name){
-//					$rootScope.authenticated = true;
-//				} else {
-//					$rootScope.authenticated = false;
-//				}
-				
 //				shorthand it by coercing to boolean for the sake of un-readability 
 				$rootScope.authenticated = !!response.data.name;
 				
